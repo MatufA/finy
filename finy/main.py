@@ -1,14 +1,15 @@
 from time import sleep
 
 import logging
+from logging.config import dictConfig
 import telegram
 from fastapi import FastAPI, Request
 
 import re
-from .Config import Config
+from .Config import Config, log_config
 
 app = FastAPI(debug=True)
-logging.basicConfig()
+dictConfig(log_config)
 config = Config
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
