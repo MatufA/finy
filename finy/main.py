@@ -69,7 +69,7 @@ async def respond(req: Request):
                     did you spent {cost} for {category}?
                     """
             bot.sendMessage(chat_id=chat_id, text=ans, reply_to_message_id=msg_id)
-        except TelegramError as e:
+        except (TelegramError, ValueError) as e:
             logger.error(e)
             # if things went wrong
             bot.sendMessage(chat_id=chat_id,
