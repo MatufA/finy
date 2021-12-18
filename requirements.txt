@@ -1,0 +1,5 @@
+fastapi
+python-telegram-bot
+httpx
+uvicorn
+pyngrok
