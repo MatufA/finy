@@ -80,6 +80,8 @@ async def set_webhook(req: Request):
     s = bot.setWebhook(webhook)
     # something to let us know things work
     if s:
+        logger.info("webhook setup")
         return "webhook setup ok"
     else:
+        logger.info("webhook setup failed")
         return "webhook setup failed"
