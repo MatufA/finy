@@ -76,7 +76,7 @@ async def respond(req: Request):
 async def set_webhook(req: Request):
     # we use the bot object to link the bot to our app which live
     # in the link provided by URL
-    webhook = '{URL}/{HOOK}'.format(URL=config.heroku_config.url, HOOK=config.heroku_config.url)
+    webhook = f'{config.heroku_config.url}/{config.telegram_config.bot_token}'
     logger.info(f'set webhook {webhook}')
     s = bot.setWebhook(webhook)
     # something to let us know things work
