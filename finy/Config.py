@@ -2,7 +2,8 @@ from dataclasses import dataclass
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+if os.getenv('ENV', '').lower() == 'local':
+    load_dotenv()
 
 
 @dataclass
