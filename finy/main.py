@@ -7,7 +7,7 @@ from fastapi import FastAPI, Request
 import re
 from .Config import Config
 
-app = FastAPI()
+app = FastAPI(debug=True)
 logging.basicConfig()
 config = Config
 # Enable logging
