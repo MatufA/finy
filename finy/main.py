@@ -6,7 +6,7 @@ import telegram
 import httpx
 import re
 
-from Config import Config
+from .Config import Config
 
 app = FastAPI()
 logging.basicConfig()

@@ -5,7 +5,7 @@ import os
 @dataclass
 class TelegramBotConfig:
     bot_token = os.getenv("TOKEN")  # Telegram Bot API Key
-    chet_id = os.getenv("CHAT_ID")  # Telegram Chat ID
+    # chat_id = os.getenv("CHAT_ID")  # Telegram Chat ID
     bot_user_name = os.getenv("USERNAME")
 
 

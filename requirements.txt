@@ -1,5 +1,6 @@
-fastapi
+fastapi~=0.70.1
 python-telegram-bot
-httpx
+httpx~=0.21.1
 uvicorn
 pyngrok
+gunicorn
