@@ -15,7 +15,7 @@ config = Config
 bot = telegram.Bot(token=config.telegram_config.bot_token)
 
 
-@app.get("/{name}")
+@app.get("/hello/{name}")
 async def helloname(name: str):
     """
     Returns a Hello to the User with a wave emoji
