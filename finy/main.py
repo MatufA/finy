@@ -3,6 +3,7 @@ from time import sleep
 import logging
 from logging.config import dictConfig
 import telegram
+from telegram.error import TelegramError
 from fastapi import FastAPI, Request
 
 import re
@@ -27,6 +28,14 @@ async def helloname(name: str):
     return f"Hello {name} 👋"
 
 
+@app.get("/index.html ")
+async def health(name: str):
+    """
+    Returns a Hello to the User with a wave emoji
+    """
+    return f"alive"
+
+
 @app.post(f"/{config.telegram_config.bot_token}")
 async def respond(req: Request):
     # retrieve the message in JSON and then transform it to Telegram object
@@ -44,9 +53,8 @@ async def respond(req: Request):
     if text == "/start":
         # print the welcoming message
         bot_welcome = """
-       Welcome to Finy bot, the bot is using the service from http://avatars.adorable.io/ to generate cool
-       looking avatars based on the name you enter so please enter a name and the bot will
-       reply with an avatar for your name.
+       Hi I'm Finy and I'll be you financial assistance. Please fill free to let me know about 
+       all your expenses and I'll track it. In the future I'll be generate a reports for you. 
        """
         # send the welcoming message
         bot.sendChatAction(chat_id=chat_id, action="typing")
@@ -54,19 +62,18 @@ async def respond(req: Request):
         bot.sendMessage(chat_id=chat_id, text=bot_welcome, reply_to_message_id=msg_id)
     else:
         try:
-            # clear the message we got from any non alphabets
-            text = re.sub(r"\W", "_", text)
-            # create the api link for the avatar based on http://avatars.adorable.io/
-            url = "https://api.adorable.io/avatars/285/{}.png".format(text.strip())
-            # reply with a photo to the name the user sent,
-            # note that you can send photos by url and telegram will fetch it for you
-            bot.sendChatAction(chat_id=chat_id, action="upload_photo")
-            sleep(2)
-            bot.sendPhoto(chat_id=chat_id, photo=url, reply_to_message_id=msg_id)
-        except Exception:
+            bot.sendChatAction(chat_id=chat_id, action="typing")
+            cost, category = text.split(' ')
+            sleep(1.5)
+            ans = f"""
+                    did you spent {cost} for {category}?
+                    """
+            bot.sendMessage(chat_id=chat_id, text=ans, reply_to_message_id=msg_id)
+        except TelegramError as e:
+            logger.error(e)
             # if things went wrong
             bot.sendMessage(chat_id=chat_id,
-                            text="There was a problem in the name you used, please enter different name",
+                            text="I'm not understand please try again",
                             reply_to_message_id=msg_id)
 
     return 'ok'
