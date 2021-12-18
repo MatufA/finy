@@ -14,6 +14,7 @@ config = Config
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 logger = logging.getLogger(__name__)
+assert config.telegram_config.bot_token is not None, 'TOKEN is none'
 bot = telegram.Bot(token=config.telegram_config.bot_token)
 
 
@@ -71,10 +72,12 @@ async def respond(req: Request):
 
 
 @app.route('/setwebhook', methods=['GET', 'POST'])
-def set_webhook():
+async def set_webhook(req: Request):
     # we use the bot object to link the bot to our app which live
     # in the link provided by URL
-    s = bot.setWebhook('{URL}/{HOOK}'.format(URL=config.heroku_config.url, HOOK=config.heroku_config.url))
+    webhook = '{URL}/{HOOK}'.format(URL=config.heroku_config.url, HOOK=config.heroku_config.url)
+    logger.info(f'set webhook {webhook}')
+    s = bot.setWebhook(webhook)
     # something to let us know things work
     if s:
         return "webhook setup ok"

@@ -4,3 +4,4 @@ httpx~=0.21.1
 uvicorn
 pyngrok
 gunicorn
+python-dotenv
