@@ -19,8 +19,8 @@ logger = logging.getLogger(__name__)
 assert config.telegram_config.bot_token is not None, 'TOKEN is none'
 bot = telegram.Bot(token=config.telegram_config.bot_token)
 authUsers = None
-if TelegramAuthorizedUsers.users:
-    authUsers = [user for user in TelegramAuthorizedUsers.users.split(';')]
+if Config.authorized_users.users:
+    authUsers = [user for user in Config.authorized_users.users.split(';')]
     logger.info(f'authorized users')
 else:
     logger.error("no user configured")

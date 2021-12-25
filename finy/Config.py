@@ -29,6 +29,7 @@ class HerokuConfig:
 class Config:
     telegram_config = TelegramBotConfig
     heroku_config = HerokuConfig
+    authorized_users = TelegramAuthorizedUsers
 
 
 log_config = {
