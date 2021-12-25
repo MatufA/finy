@@ -5,6 +5,7 @@ from logging.config import dictConfig
 import telegram
 from telegram.error import TelegramError
 from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 
 from .Config import Config, log_config
 
@@ -34,7 +35,7 @@ async def helloname(name: str):
 
 
 @app.get("/index.html ")
-async def health(name: str):
+async def health():
     """
     Returns a Hello to the User with a wave emoji
     """
@@ -99,7 +100,13 @@ async def set_webhook(req: Request):
     # something to let us know things work
     if s:
         logger.info("webhook setup")
-        return "webhook setup ok"
+        return JSONResponse(
+            status_code=200,
+            content={"message": "webhook setup ok"},
+        )
     else:
         logger.info("webhook setup failed")
-        return "webhook setup failed"
+        return JSONResponse(
+            status_code=500,
+            content={"message": "webhook setup failed"},
+        )
