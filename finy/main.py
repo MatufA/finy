@@ -53,7 +53,7 @@ async def respond(req: Request):
 
     logger.info(f'chat id: {chat_id}, user name: {update.message.chat.full_name}')
 
-    if chat_id not in authUsers:
+    if str(chat_id) not in authUsers:
         return 'false'
 
     # Telegram understands UTF-8, so encode text for unicode compatibility
