@@ -21,6 +21,7 @@ bot = telegram.Bot(token=config.telegram_config.bot_token)
 authUsers = None
 if TelegramAuthorizedUsers.users:
     authUsers = [user for user in TelegramAuthorizedUsers.users.split(';')]
+    logger.info(f'authorized users')
 else:
     logger.error("no user configured")
 
@@ -49,6 +50,8 @@ async def respond(req: Request):
 
     chat_id = update.message.chat.id
     msg_id = update.message.message_id
+
+    logger.info(f'chat id: {chat_id}, user name: {update.message.chat.full_name}')
 
     if chat_id not in authUsers:
         return 'false'
