@@ -7,6 +7,11 @@ if os.getenv('ENV', '').lower() == 'local':
 
 
 @dataclass
+class TelegramAuthorizedUsers:
+    users = os.getenv("AUTH_USERS")
+
+
+@dataclass
 class TelegramBotConfig:
     bot_token = os.getenv("TOKEN")  # Telegram Bot API Key
     # chat_id = os.getenv("CHAT_ID")  # Telegram Chat ID

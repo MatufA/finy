@@ -7,7 +7,7 @@ from telegram.error import TelegramError
 from fastapi import FastAPI, Request
 
 import re
-from .Config import Config, log_config
+from .Config import Config, log_config, TelegramAuthorizedUsers
 
 app = FastAPI(debug=True)
 dictConfig(log_config)
@@ -18,6 +18,11 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 assert config.telegram_config.bot_token is not None, 'TOKEN is none'
 bot = telegram.Bot(token=config.telegram_config.bot_token)
+authUsers = None
+if TelegramAuthorizedUsers.users:
+    authUsers = [user for user in TelegramAuthorizedUsers.users.split(';')]
+else:
+    logger.error("no user configured")
 
 
 @app.get("/hello/{name}")
@@ -44,6 +49,9 @@ async def respond(req: Request):
 
     chat_id = update.message.chat.id
     msg_id = update.message.message_id
+
+    if chat_id not in authUsers:
+        return 'false'
 
     # Telegram understands UTF-8, so encode text for unicode compatibility
     text = update.message.text.encode('utf-8').decode()
