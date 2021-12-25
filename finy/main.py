@@ -6,8 +6,7 @@ import telegram
 from telegram.error import TelegramError
 from fastapi import FastAPI, Request
 
-import re
-from .Config import Config, log_config, TelegramAuthorizedUsers
+from .Config import Config, log_config
 
 app = FastAPI(debug=True)
 dictConfig(log_config)
@@ -21,7 +20,7 @@ bot = telegram.Bot(token=config.telegram_config.bot_token)
 authUsers = None
 if Config.authorized_users.users:
     authUsers = [user for user in Config.authorized_users.users.split(';')]
-    logger.info(f'authorized users')
+    logger.info(f'authorized users: {authUsers}')
 else:
     logger.error("no user configured")
 
